@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BSCT501 การเขียนโปรแกรมเบื้องต้น | RMUTL ลำปาง</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#1565e8;--navy:#14338a;--ink:#26324d;--mute:#6b7894;--line:#e3e9f5;--bg:#eef3fc;--card:#fff}
+*{box-sizing:border-box;margin:0}
+body{font-family:'Prompt','Noto Sans Thai',sans-serif;color:var(--ink);background:linear-gradient(#eaf1fd,#f7f9fe 60%);min-height:100vh;display:flex;flex-direction:column}
+header{display:flex;align-items:center;gap:24px;padding:10px 4vw;position:relative;z-index:20}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink)}
+.brand img{height:62px}
+.brand b{font-size:32px;color:var(--navy);display:block;line-height:1}
+.brand span{font-size:14px;line-height:1.3;display:block;max-width:260px;color:var(--navy)}
+nav{margin-left:auto;display:flex;gap:4px;background:#fffc;padding:8px;border-radius:14px;box-shadow:0 2px 14px #1a3a8a14}
+.mi{position:relative}
+.mi>button{font:500 15px 'Prompt';display:flex;align-items:center;gap:8px;border:0;background:none;color:var(--navy);padding:12px 18px;border-radius:10px;cursor:pointer}
+.mi>button:hover{background:#e8effc}
+.mi>button.on{background:var(--blue);color:#fff}
+.mi>button .c{font-size:11px;transition:.2s}.mi.open .c{transform:rotate(180deg)}
+.dd{display:none;position:absolute;right:0;top:calc(100% + 10px);width:340px;max-height:70vh;overflow:auto;background:#fff;border-radius:14px;box-shadow:0 14px 40px #14338a33;padding:10px}
+.mi.open .dd{display:block}
+.dd h4{font-size:12px;color:var(--mute);font-weight:500;padding:10px 10px 4px}
+.dd a{display:block;padding:9px 10px;border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+.dd a:hover{background:#eaf1fd;color:var(--blue)}
+.dd a small{display:block;color:var(--mute);font-size:12px}
+.hero{background:linear-gradient(100deg,#0b2f7ed9,#1d5fc7a6 55%,#4f93e633),url(assets/hero.jpg) center 62%/cover #2a62c4;color:#fff;padding:44px 8vw 90px;position:relative}
+.tag{display:inline-block;background:#ffffff40;padding:10px 20px;border-radius:30px;font-weight:600}
+.units{position:absolute;right:8vw;top:44px;background:#fff;color:var(--blue);padding:10px 18px;border-radius:30px;font-weight:600;font-size:14px}
+.hero h1{font-size:clamp(32px,5vw,52px);margin:12px 0 4px;font-weight:700}
+.hero p{font-size:22px;font-weight:500}
+main{width:min(1320px,86vw);margin:-56px auto 0;position:relative;z-index:2;flex:1}
+.panel{background:var(--card);border-radius:20px;padding:24px 40px 30px;box-shadow:0 8px 30px #1a3a8a1a}
+.meta{background:#f0f5fe;border-radius:10px;padding:16px 24px;display:flex;gap:40px;flex-wrap:wrap;font-size:15px;margin-bottom:26px}
+.meta b{color:var(--navy)}.meta span{color:var(--mute)}
+.sec{display:grid;grid-template-columns:44px 1fr;gap:0 16px;padding:8px 0 18px}
+.sec+.sec{border-top:1px solid var(--line);padding-top:22px}
+.sec svg{width:34px;height:34px;color:var(--blue)}
+.sec h2{font-size:25px;color:var(--blue);font-weight:600;margin-bottom:6px}
+.sec p{line-height:1.85;font-size:15.5px}
+.sec p.en{line-height:1.75;font-size:15px;color:#3a4766}
+.shortcuts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:24px 0}
+.sc{display:flex;align-items:center;gap:16px;background:#fff;border:0;border-radius:16px;padding:18px 20px;text-align:left;font-family:inherit;cursor:pointer;box-shadow:0 2px 14px #1a3a8a12;color:var(--ink)}
+.sc:hover{box-shadow:0 6px 22px #1a3a8a2a}
+.ic{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;font-size:26px;flex:none}
+.sc b{display:block;color:var(--navy);font-size:17px}.sc small{color:var(--mute);font-size:13px}
+.sc .go{margin-left:auto;color:var(--mute)}
+/* profile */
+.hide{display:none}
+.me{display:flex;gap:28px;align-items:center;flex-wrap:wrap;margin-bottom:26px}
+.av{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#1565e8,#6aa6f5);color:#fff;font-size:46px;display:grid;place-items:center;font-weight:600}
+.me h2{font-size:30px;color:var(--navy)}.me a{color:var(--blue)}
+.tl{border-left:3px solid #cfdcf5;margin-left:8px}
+.tl div{display:flex;gap:18px;align-items:center;padding:6px 0 22px 24px;position:relative}
+.tl div:before{content:"";position:absolute;left:-9px;top:20px;width:15px;height:15px;border-radius:50%;background:var(--blue);border:3px solid #fff;box-shadow:0 0 0 1px #cfdcf5}
+.tl img{height:64px;width:64px;object-fit:contain}
+.logo-fb{height:64px;width:64px;border-radius:12px;background:#7a1020;color:#fff;display:none;place-items:center;font-weight:700}
+.tl b{display:block;font-size:18px;color:var(--navy)}.tl small{color:var(--mute);font-size:14px}
+.info{width:100%;border-collapse:collapse;margin-top:28px;border:1px solid #ddd}
+.info td{border:1px solid #ddd;padding:22px 20px;font-size:19px}
+.info td:first-child{width:25%;font-weight:700;color:#222}
+.info td:last-child{text-align:center;font-weight:700}
+.info a{color:#2a62f5;text-decoration:none}.info a:hover{text-decoration:underline}
+@media(max-width:700px){.info td{display:block;width:100%!important;text-align:left!important}}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:18px 4vw;margin-top:20px;font-size:14px;color:var(--mute);border-top:1px solid var(--line);background:#fff}
+@media(max-width:1000px){header{flex-wrap:wrap}nav{margin:0;overflow-x:auto;width:100%}.dd{position:fixed;left:4vw;right:4vw;width:auto;top:auto}.panel{padding:20px}.units{position:static;display:inline-block;margin-top:14px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="#" onclick="show('home');return false"><img src="assets/rmutl-logo.png" alt="โลโก้ RMUTL"><div><b>RMUTL</b><span>มหาวิทยาลัยเทคโนโลยีราชมงคลล้านนา ลำปาง</span></div></a>
+  <nav id="nav">
+    <div class="mi"><button class="on" id="b-home" onclick="show('home')">🏠 คำอธิบายรายวิชา</button></div>
+    <div class="mi"><button id="b-profile" onclick="show('profile')">👤 ประวัติส่วนตัว</button></div>
+    <div class="mi" id="m-calc"><button onclick="tog('m-calc')">🧮 เงื่อนไข &amp; คำนวณ <i class="c">▼</i></button><div class="dd"></div></div>
+    <div class="mi" id="m-hw"><button onclick="tog('m-hw')">📁 การบ้าน <i class="c">▼</i></button><div class="dd"></div></div>
+    <div class="mi" id="m-lab"><button onclick="tog('m-lab')">🧪 Test <i class="c">▼</i></button><div class="dd"></div></div>
+  </nav>
+</header>
+
+<div class="hero">
+  <span class="tag">BSCT501</span><span class="units">3(2-2-5) หน่วยกิต</span>
+  <h1>การเขียนโปรแกรมเบื้องต้น</h1>
+  <p>Fundamentals of Programming</p>
+</div>
+
+<main>
+  <section class="panel" id="v-home">
+    <div class="meta"><div><b>รหัสรายวิชาเดิม :</b> <span>ไม่มี</span></div><div><b>วิชาบังคับก่อน :</b> <span>ไม่มี</span></div></div>
+    <div class="sec">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 5.5C4.5 4.2 8 4 11 5.7V19c-3-1.6-6.500-1.400-9 0V5.500zm20 0c-2.500-1.300-6-1.500-9 .2V19c3-1.600 6.500-1.400 9 0V5.500z"/></svg>
+      <div><h2>คำอธิบายรายวิชา</h2>
+      <p>ศึกษาและฝึกปฏิบัติเกี่ยวกับหลักการทั่วไปเกี่ยวกับการเขียนโปรแกรม หลักการแก้ปัญหาด้วยคอมพิวเตอร์ การเขียนขั้นตอนวิธีและเขียนผังงาน องค์ประกอบของประโยคคำสั่ง เช่น ตัวแปร ค่าคงที่ เครื่องหมายกระทำการ นิพจน์ ฟังก์ชัน เป็นต้น ชนิดของข้อมูลแบบต่าง ๆ โครงสร้างข้อมูลแบบอาร์เรย์ โครงสร้างคำสั่งแบบตามลำดับ เลือกทำ และการวนซ้ำ การสร้างโปรแกรมย่อย รวมถึงการใช้งานโปรแกรมย่อยสำเร็จรูปจากผู้สร้างอื่น โดยการใช้ภาษาคอมพิวเตอร์ในการฝึกปฏิบัติ การใช้เครื่องมือในการพัฒนาโปรแกรม การตรวจสอบ ทดสอบ และแก้ไขโปรแกรม</p></div>
+    </div>
+    <div class="sec">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2c3 3 4.500 6.500 4.500 10S15 19 12 22c-3-3-4.500-6.500-4.500-10S9 5 12 2z"/></svg>
+      <div><h2>Course Description</h2>
+      <p class="en">Study and practice about general principles of computer programming and problem-solving with computer programs; algorithms and flowchart; programming syntax including variables, parameters, operators, expressions, functions, etc.; various types of data such as array structure, sequence structure, selection structure, and iteration structure; sub-program development; use of third-parties’ sub-program package. Practice by using computer language and application program development tools in development, checking, testing and debugging processes.</p></div>
+    </div>
+  </section>
+
+  <section class="panel hide" id="v-profile">
+    <div class="me">
+      <div class="av">ป</div>
+      <div><h2>นาย ปรวีร์ พลีบัตร</h2>
+        <p><a href="mailto:porraweepleebut@gmail.com">porraweepleebut@gmail.com</a></p></div>
+    </div>
+    <h3 style="color:var(--blue);margin-bottom:14px">ประวัติการศึกษา</h3>
+    <div class="tl">
+      <div><img src="assets/asc-logo.png" alt="โลโก้ ASC" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span class="logo-fb">ASC</span>
+        <p><b>โรงเรียนอัสสัมชัญศึกษา ลำปาง</b><small>ระดับอนุบาล – มัธยมศึกษาตอนปลาย</small></p></div>
+      <div><img src="assets/rmutl-logo.png" alt="โลโก้ RMUTL" style="object-position:center"><p><b>มหาวิทยาลัยเทคโนโลยีราชมงคลล้านนา ลำปาง</b><small>ระดับปริญญาตรี (กำลังศึกษา)</small></p></div>
+    </div>
+    <table class="info">
+      <tr><td>การเรียนรู้ตลอดชีวิต</td><td><a href="https://www.w3schools.com" target="_blank" rel="noopener">w3schools.com</a></td></tr>
+    </table>
+  </section>
+
+  <div class="shortcuts">
+    <button class="sc" onclick="show('profile')"><span class="ic" style="background:#dcebfc">👤</span><span><b>ประวัติส่วนตัว</b><small>ข้อมูลส่วนตัวและประวัติการศึกษา</small></span><i class="go">›</i></button>
+    <button class="sc" onclick="openM('m-calc')"><span class="ic" style="background:#dff5e8">🧮</span><span><b>เงื่อนไข &amp; คำนวณ</b><small>BMI และส่วนลดสินค้า</small></span><i class="go">›</i></button>
+    <button class="sc" onclick="openM('m-hw')"><span class="ic" style="background:#fdebd3">📁</span><span><b>การบ้าน</b><small>รวมงานการบ้าน</small></span><i class="go">›</i></button>
+    <button class="sc" onclick="openM('m-lab')"><span class="ic" style="background:#e6e0f8">🧪</span><span><b>Test</b><small>งานทดลองและแบบฝึกหัด</small></span><i class="go">›</i></button>
+  </div>
+</main>
+
+<footer><span>© 2024-2026 RMUTL ลำปาง | การเขียนโปรแกรมเบื้องต้น (BSCT501)</span><span>จัดทำโดย ปรวีร์ พลีบัตร</span></footer>
+
+<script>
+// แก้ path ตรงนี้ได้ถ้าย้ายโฟลเดอร์ (ไฟล์ทั้งหมดอยู่ในโฟลเดอร์ final)
+const K='test_lab/', D='quiz/';
+const menus={
+ 'm-calc':[['',[['คำนวณ BMI','bmi/bmi01.php','ดัชนีมวลกาย'],['คำนวณส่วนลดสินค้า','test-discount.php','ส่วนลดตามยอดซื้อ']]]],
+ 'm-hw':[
+  ['Loop 1',[1,2,3,4,5].map(i=>['Loop '+i,'lab_loop1/loop0'+i+'.php'])],
+  ['Loop 2',[1,2,3,4,5].map(i=>['Loop '+i,'lab_loop2/loop0'+i+'.php'])],
+  ['Array',[['Array 01','array/lab_array01.php'],['While','array/lab_array01_while.php'],['Do-while','array/lab_array01_dowhile.php'],['Foreach','array/lab_array01_foreach_loob.php'],['Foreach 2','array/lab_array01_foreach2_loob.php'],['หน้ารวม Array','array/index.html']]],
+  ['Function',[1,2,3,4,5,6].map(i=>['Function '+i,'function/lab_function0'+i+'.php']).concat([['Function BMI','function/lab_functionbmi.php'],['หน้ารวม Function','function/index1.php']])],
+  ['ทั้งหมด',[['ดูรวมงานทั้งหมด (ค้นหาได้)','all-works.html']]]],
+ 'm-lab':[
+  ['แบบฝึกหัด',[['คำนวณส่วนลดสินค้า','test-discount.php'],['Fire','test-fire.php'],['Bonus','test-bonus.php'],['Car','test-car.php'],['Bonus work','test-bonuswork.php'],['เลข 10-50','number/number10_50.php'],['เลข 10-50 (ชุดที่ 2)','newx/new1050.php']]],
+  ['แบบทดสอบ',[['คำนวณเกรด','test-grade.php'],['ประเมินสินเชื่อ','test-loan.php'],['ค่าไฟฟ้า','test-electricity.php'],['BMI','test-bmi.php']]]]
+};
+const enc=p=>p.split('/').map(encodeURIComponent).join('/');
+for(const [id,groups] of Object.entries(menus)){
+ document.querySelector('#'+id+' .dd').innerHTML=groups.map(([t,l])=>(t?'<h4>'+t+'</h4>':'')+l.map(([n,h,s])=>'<a href="'+enc(h.replace(/\.php$/,'.html'))+'">'+n+(s?'<small>'+s+'</small>':'')+'</a>').join('')).join('');
+}
+function closeAll(){document.querySelectorAll('.mi.open').forEach(m=>m.classList.remove('open'))}
+function tog(id){const m=document.getElementById(id),o=m.classList.contains('open');closeAll();if(!o)m.classList.add('open')}
+function openM(id){scrollTo({top:0,behavior:'smooth'});closeAll();document.getElementById(id).classList.add('open')}
+function show(v){closeAll();['home','profile'].forEach(x=>{document.getElementById('v-'+x).classList.toggle('hide',x!==v);document.getElementById('b-'+x).classList.toggle('on',x===v)});scrollTo({top:0})}
+document.addEventListener('click',e=>{if(!e.target.closest('.mi')&&!e.target.closest('.sc'))closeAll()});
+</script>
+</body>
+</html>
